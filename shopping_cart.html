@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: white;" >
+    <div class="container"> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar18">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar18"> <a class="navbar-brand d-none d-md-block" href="#">
+        </a>
+        <ul class="navbar-nav mx-auto">
+        </ul>
+        <ul class="navbar-nav">
+        <li class="nav-item"> <a class="nav-link" href="#" style="color: black; font-family: AustinBold, Austin;">
+            <i class="fa fa-user fa-fw" font-family: AustinBold, Austin;></i> My Account</a>
+        </li>
+        <li class="nav-item"> <a class="nav-link" href="#" style="color: black; font-family: AustinBold, Austin;">Sign In</a> </li>
+        </ul>
+    </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #FFF6E3;" >
+    <div class="container"> <a class="navbar-brand text-primary" href="#">
+        <a class="navbar-brand" href="#">
+            <img src="/image/unbox.png" width="35" height="35" alt="">
+        </a>
+        <a class="navbar-brand" style="font-family: AustinBold, Austin; font-size: 35px; color:#333333; font-weight:bold;" href="index.html">P - OLE </a>
+    </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar4" style="margin-left: 600px; font-family: AustinBold, Austin; font-size: larger; ">
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item" style="color: black;"> <a class="nav-link" href="#">New Arrival</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">Shop</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">Sale</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#">Blog</a> </li>
+    </div>
+    </div>
+</nav>
+
+    <div class="app_container">
+        <div id="app">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item" v-on:click="ShowHomePage">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            
+                            <li class="nav-item" v-on:click="ShowMyCart">
+                                <a class="nav-link" href="#">My Cart ({{countitem}})</a>
+                            </li>
+
+                        </ul>
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            <div class="container" style="margin-top : 30px;" v-if="product_page">
+                Products ::
+                <hr/>
+                <div class="home container">
+                    <div class="row">
+                        <div class="col-md-12 pt-5">
+                            <div class="row equal row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4">
+                                <Product v-on:add-item="addItem" v-for="product in products" :product="product" :key="product.id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-top : 30px;" v-if="cart_page">
+                My Cart ::
+                <hr/>
+                <div class="home container">
+                    <div class="row">
+                        <div class="col-md-12 pt-5">
+                            <CartItem v-for="item in cart" :item="item" :key="item.id" />
+                        </div>
+                        <div class="col-md-4 pt-5"></div>
+                        <div class="col-md-4 pt-5"><button class="btn btn-danger btn-block">Remove</button></div>
+                        <div class="col-md-4 pt-5"></div> <h2>Total price $0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+
+    <template id="product-template">
+        <div class="col mb-4 d-flex">
+            <div class="card">
+                <img :src="product.url" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">
+                    ${{product.price}}
+                    <br/>
+                    <small>
+                    {{product.shortdesc}}
+                    </small>
+                </p>
+                <button @click="addToCart()" class="btn btn-primary btn-block">Add</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="cartitem-template">
+        <div>{{item.name}} - {{item.count}}</div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        let app = Vue.createApp({
+
+            data: function() {
+                return {
+                    
+                    product_page: true,
+                    cart_page: false,
+
+                    products: [{
+                        id: 1,
+                        name: "Zip-top Sweatshirt",
+                        price: 149,
+                        shortdesc: "CONSCIOUS Oversized top in soft, printed sweatshirt fabric with a high collar and zip at the top. Low dropped shoulders, long, wide sleeves and ribbing at the cuffs and hem. Soft brushed inside.",
+                        url: "image/hmsweat.jpeg"
+                    }, {
+                        id: 2,
+                        name: "Satin Slip Dress",
+                        price: 200,
+                        shortdesc: "Short dress in softly draping satin with a lace trim at the top. V-neck and narrow, adjustable shoulder straps. Unlined.",
+                        url: "image/hmsatin.jpeg"
+                    }, {
+                        id: 3,
+                        name: "Bouclé Dress",
+                        price: 199,
+                        shortdesc: "Fitted, knee-length dress in a textured bouclé weave containing some wool. Concealed zip at the back, short sleeves, and fake front pockets with a decorative button. Frayed, raw edges around the sleeves and hem. Satin lining.",
+                        url: "image/hmdress2.jpeg"
+                    }, {
+                        id: 4,
+                        name: "V-neck Dress",
+                        price: 80,
+                        shortdesc: "Short dress in woven fabric. Wide shoulder straps, a deep V-neck with a drawstring below the bust",
+                        url: "image/hmlinin.jpeg"
+                    }, {
+                        id: 5,
+                        name: "Straight High Jeans",
+                        price: 149,
+                        shortdesc: "5-pocket jeans in sturdy, washed cotton denim with a high waist, button fly and straight legs for the perfect 90s vibe.",
+                        url: "image/hmjean.jpeg"
+                    }, {
+                        id: 6,
+                        name: "Sequined Dress",
+                        price: 259,
+                        shortdesc: "Relaxed-fit, calf-length dress in sequined mesh with a V-neck at the front and long, wide sleeves. Jersey lining.",
+                        url: "image/hmdress.jpeg"
+                    }],
+
+                    cart: []
+                }
+            },
+
+            mounted: function() {
+
+            },
+
+            methods: {
+                addItem: function(id) {
+                    console.log(this.products)
+                    console.log(id)
+                    
+                    //Check if this product already in the cart
+                    item = this.cart.find(product => product.id == id)
+
+                    if (item) { // if this product already in the cart
+                        item.count += 1
+                    } else {
+                        item = this.products.find(product => product.id == id)
+                        this.cart.push({
+                            id: item.id,
+                            name: item.name,
+                            count: 1
+                        })
+                    }
+                    console.log(this.cart)
+                },
+
+                ShowMyCart: function() {
+                    this.cart_page = true
+                    this.product_page = false
+                },
+
+                ShowHomePage: function() {
+                    this.product_page = true
+                    this.cart_page = false
+                }
+            },
+
+            computed: {
+                countitem: function() {
+                    var total = 0
+                    for (i in this.cart) {
+                        total += this.cart[i].count
+                    }
+                    return total
+                }
+            }
+
+        })
+
+        app.component('Product', {
+            data: function() {
+                return {}
+            },
+            props: ['product'],
+            template: "#product-template",
+
+            methods: {
+                addToCart: function() {
+                    this.$emit("add-item", this.product.id)
+                }
+
+            },
+        });
+
+        app.component('Cartitem', {
+            props: ['item'],
+            template: '#cartitem-template',
+        });
+
+        app.mount("#app")
+    </script>
+
+<div class="font" style="background-color: #E1D5E7; height: 250px; ">
+    <div class="container">
+        <div class="row">
+            <div class="p-4 col-md-3">
+            <h2 class="mb-4" style="font-family: AustinBold, Austin; font-weight: bold; font-size: larger;">P - OLE</h2>
+            <p>A company for whatever you may need, at the best price and best quality.</p>
+            </div>
+            <div class="p-4 col-md-3">
+            <h2 class="mb-4" style="font-family: AustinBold, Austin; font-weight: bold; font-size: larger;">Mapsite</h2>
+            <ul class="list-unstyled"> <a href="#" class="text-dark">Home</a> <br> <a href="#" class="text-dark">Shop</a> <br> <a href="#" class="text-dark">Sale</a> <br> <a href="login2.html" class="text-dark">Log in</a> </ul>
+            </div>
+            <div class="p-4 col-md-3">
+            <h2 class="mb-4" style="font-family: AustinBold, Austin; font-weight: bold; font-size: larger;">Contact</h2>
+            <p> <a href="#" class="text-dark">
+                <i class="fa d-inline mr-3 text-muted fa-phone"></i>+246 - 542 550 5462</a> </p>
+            <p> <a href="#" class="text-dark">
+                <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>info@pole.com</a> </p>
+            <p> <a href="#" class="text-dark">
+                <i class="fa d-inline mr-3 fa-map-marker text-muted"></i>365 Park Street, NY</a> </p>
+            </div>
+            <div class="p-4 col-md-3">
+            <h2 class="mb-4" style="font-family: AustinBold, Austin; font-weight: bold; font-size: larger;">Subscribe</h2>
+            <form>
+                <fieldset class="form-group"> <label for="exampleInputEmail1">Get our newsletter</label> <input type="email" class="form-control" placeholder="Enter email"> </fieldset> <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-3">
+            <p class="text-center">© Copyright 2018 P - OLE - All rights reserved. </p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
